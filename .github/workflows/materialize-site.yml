@@ -1,0 +1,33 @@
+name: Materialize site seed
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.seed/**'
+      - '.github/workflows/materialize-site.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Restore project files
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat .seed/part-* > /tmp/site.tar.xz.b64
+          base64 -d /tmp/site.tar.xz.b64 > /tmp/site.tar.xz
+          tar -xJf /tmp/site.tar.xz -C .
+          rm -rf .seed
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+          git commit -m "Materialize RightRentCar preview [skip ci]"
+          git push
