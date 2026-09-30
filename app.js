@@ -22,456 +22,293 @@ const CARS = [
     { name: 'VW Tiguan', year: '2021', className: 'Кроссовер', category: 'suv', body: 'Кроссовер', drive: 'Передний', seats: 5, gearbox: 'АКП', shortPrice: 5850, longPrice: 4650, deposit: 20000, image: 'https://rrentcar.ru/media/cache/79/f6/79f6a2a484bc54f7b2f9e6f873ab6f18.jpg' }
 ];
 const FILTERS = [
-    ['all', 'Все'],
-    ['suv', 'Кроссоверы'],
-    ['business', 'Бизнес'],
-    ['cabrio', 'Кабриолеты'],
-    ['family', '7+ мест'],
-    ['new', 'Новинки']
+    ['all', 'Все автомобили'], ['suv', 'Кроссоверы'], ['business', 'Бизнес'], ['cabrio', 'Кабриолеты'], ['family', '7+ мест'], ['new', 'Новинки']
 ];
-function money(value) {
-    return new Intl.NumberFormat('ru-RU').format(value) + ' ₽';
-}
+function money(value) { return new Intl.NumberFormat('ru-RU').format(value) + ' ₽'; }
 function Icon(props) {
     const s = props.size || 18;
-    const common = { width: s, height: s, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.8, strokeLinecap: 'round', strokeLinejoin: 'round', 'aria-hidden': 'true' };
-    const paths = {
+    const c = { width: s, height: s, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.8, strokeLinecap: 'round', strokeLinejoin: 'round', 'aria-hidden': 'true' };
+    const p = {
         arrow: React.createElement("g", null,
             React.createElement("path", { d: "M5 12h14" }),
             React.createElement("path", { d: "m13 6 6 6-6 6" })),
-        chevron: React.createElement("path", { d: "m9 18 6-6-6-6" }),
-        phone: React.createElement("g", null,
-            React.createElement("path", { d: "M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.33 1.78.62 2.63a2 2 0 0 1-.45 2.11L8 9.73a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.85.29 1.73.5 2.63.62A2 2 0 0 1 22 16.92z" })),
-        shield: React.createElement("g", null,
+        phone: React.createElement("path", { d: "M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.6a2 2 0 0 1-.5 2.1L8 9.7a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.8.3 1.7.5 2.6.6a2 2 0 0 1 2 2.3z" }),
+        menu: React.createElement("g", null,
+            React.createElement("path", { d: "M4 7h16M4 12h16M4 17h16" })), close: React.createElement("g", null,
+            React.createElement("path", { d: "M18 6 6 18M6 6l12 12" })),
+        check: React.createElement("path", { d: "m5 12 4 4L19 6" }), shield: React.createElement("g", null,
             React.createElement("path", { d: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" }),
             React.createElement("path", { d: "m9 12 2 2 4-4" })),
-        car: React.createElement("g", null,
-            React.createElement("path", { d: "m5 17-1.5-4.5L6 8h12l2.5 4.5L19 17" }),
-            React.createElement("path", { d: "M5 17h14v3H5z" }),
-            React.createElement("path", { d: "M7 20v1M17 20v1M4 13h16M8 13l1-3h6l1 3" })),
         users: React.createElement("g", null,
-            React.createElement("path", { d: "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" }),
             React.createElement("circle", { cx: "9", cy: "7", r: "4" }),
-            React.createElement("path", { d: "M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" })),
-        route: React.createElement("g", null,
-            React.createElement("circle", { cx: "6", cy: "19", r: "3" }),
-            React.createElement("path", { d: "M9 19h6.5A4.5 4.5 0 0 0 20 14.5V9" }),
-            React.createElement("circle", { cx: "20", cy: "5", r: "3" }),
-            React.createElement("path", { d: "M17 5H9.5A4.5 4.5 0 0 0 5 9.5V16" })),
-        menu: React.createElement("g", null,
-            React.createElement("path", { d: "M4 7h16M4 12h16M4 17h16" })),
-        close: React.createElement("g", null,
-            React.createElement("path", { d: "M18 6 6 18M6 6l12 12" })),
-        mail: React.createElement("g", null,
-            React.createElement("path", { d: "M4 4h16v16H4z" }),
-            React.createElement("path", { d: "m4 6 8 7 8-7" })),
-        check: React.createElement("path", { d: "m5 12 4 4L19 6" })
+            React.createElement("path", { d: "M2 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v2M16 3.2a4 4 0 0 1 0 7.6M22 21v-2a4 4 0 0 0-3-3.8" })),
+        road: React.createElement("g", null,
+            React.createElement("path", { d: "M8 21 10 3M16 21 14 3M12 7v2M12 13v2M12 19v2" })), mail: React.createElement("g", null,
+            React.createElement("rect", { x: "3", y: "5", width: "18", height: "14", rx: "2" }),
+            React.createElement("path", { d: "m3 7 9 6 9-6" }))
     };
-    return React.createElement("svg", { ...common }, paths[props.name]);
+    return React.createElement("svg", { ...c }, p[props.name]);
 }
 function Button(props) {
-    const cls = ['button', props.variant === 'ghost' ? 'button-ghost' : '', props.variant === 'outline' ? 'button-outline' : '', props.className || ''].filter(Boolean).join(' ');
-    if (props.href) {
-        return React.createElement("a", { className: cls, href: props.href, target: props.external ? '_blank' : undefined, rel: props.external ? 'noreferrer' : undefined, "aria-label": props['aria-label'] }, props.children);
-    }
-    return React.createElement("button", { className: cls, type: props.type || 'button', onClick: props.onClick, "aria-label": props['aria-label'], disabled: props.disabled }, props.children);
+    const cls = ['button', props.variant ? `button-${props.variant}` : '', props.className || ''].filter(Boolean).join(' ');
+    return props.href ? React.createElement("a", { className: cls, href: props.href, target: props.external ? '_blank' : undefined, rel: props.external ? 'noreferrer' : undefined }, props.children)
+        : React.createElement("button", { className: cls, type: props.type || 'button', onClick: props.onClick }, props.children);
 }
-function FeaturePill(props) {
-    return React.createElement("span", { className: "feature-pill" },
-        React.createElement(Icon, { name: props.icon, size: 15 }),
-        props.label);
+function Brand() {
+    return React.createElement("span", { className: "brand-lockup" },
+        React.createElement("img", { src: "./assets/right-rent-car-logo.png", alt: "Right Rent Car" }));
 }
 class App extends React.Component {
     constructor(props) {
         super(props);
-        this.openModal = (car) => {
-            this.lastFocused = document.activeElement;
-            this.setState({ modalOpen: true, selected: car || null, formSent: false, mailtoHref: 'mailto:RightRentCar@gmail.com', formError: false });
-        };
-        this.closeModal = () => {
-            this.setState({ modalOpen: false, formSent: false, mailtoHref: 'mailto:RightRentCar@gmail.com', formError: false }, () => { var _a; return (_a = this.lastFocused) === null || _a === void 0 ? void 0 : _a.focus(); });
-        };
-        this.submitBooking = (event) => {
-            var _a;
-            event.preventDefault();
-            const form = event.currentTarget;
-            const data = new FormData(form);
-            const name = String(data.get('name') || '').trim();
-            const phone = String(data.get('phone') || '').trim();
-            const comment = String(data.get('comment') || '').trim();
+        this.lastFocused = null;
+        this.openModal = (car) => { this.lastFocused = document.activeElement; this.setState({ modalOpen: true, selected: car || null, formSent: false, formError: false, mailtoHref: 'mailto:RightRentCar@gmail.com' }); };
+        this.closeModal = () => this.setState({ modalOpen: false }, () => { var _a; return (_a = this.lastFocused) === null || _a === void 0 ? void 0 : _a.focus(); });
+        this.setFilter = (filter) => this.setState({ filter, expanded: true }, () => { var _a; return (_a = document.querySelector('#fleet-grid')) === null || _a === void 0 ? void 0 : _a.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+        this.submitBooking = (e) => {
+            e.preventDefault();
+            const form = e.currentTarget;
+            const d = new FormData(form);
+            const name = String(d.get('name') || '').trim();
+            const phone = String(d.get('phone') || '').trim();
+            const comment = String(d.get('comment') || '').trim();
             if (!name || phone.replace(/\D/g, '').length < 10) {
-                form.classList.add('has-errors');
                 this.setState({ formError: true });
-                (_a = form.querySelector('input[name="name"]')) === null || _a === void 0 ? void 0 : _a.focus();
                 return;
             }
-            form.classList.remove('has-errors');
-            this.setState({ formError: false });
-            const subject = `Заявка с сайта RightRentCar${this.state.selected ? ` — ${this.state.selected.name}` : ''}`;
-            const body = [
-                `Имя: ${name}`,
-                `Телефон: ${phone}`,
-                this.state.selected ? `Автомобиль: ${this.state.selected.name}, ${this.state.selected.year}` : '',
-                comment ? `Комментарий: ${comment}` : ''
-            ].filter(Boolean).join('\n');
-            const mailtoHref = `mailto:RightRentCar@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-            this.setState({ formSent: true, mailtoHref });
+            const car = this.state.selected;
+            const subject = `Заявка с сайта RightRentCar${car ? ` — ${car.name}` : ''}`;
+            const body = [`Имя: ${name}`, `Телефон: ${phone}`, car ? `Автомобиль: ${car.name}, ${car.year}` : '', comment ? `Комментарий: ${comment}` : ''].filter(Boolean).join('\n');
+            this.setState({ formError: false, formSent: true, mailtoHref: `mailto:RightRentCar@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}` });
         };
         this.state = { filter: 'all', expanded: false, menuOpen: false, modalOpen: false, selected: null, formSent: false, mailtoHref: 'mailto:RightRentCar@gmail.com', formError: false };
-        this.lastFocused = null;
-        this.escHandler = (event) => {
-            if (!this.state.modalOpen)
-                return;
-            if (event.key === 'Escape') {
-                this.closeModal();
-                return;
-            }
-            if (event.key === 'Tab') {
-                const modal = document.querySelector('.modal');
-                if (!modal)
-                    return;
-                const focusable = Array.from(modal.querySelectorAll('button, [href], input, textarea, select, [tabindex]:not([tabindex="-1"])')).filter(el => !el.hasAttribute('disabled'));
-                if (!focusable.length)
-                    return;
-                const first = focusable[0];
-                const last = focusable[focusable.length - 1];
-                if (event.shiftKey && document.activeElement === first) {
-                    event.preventDefault();
-                    last.focus();
-                }
-                else if (!event.shiftKey && document.activeElement === last) {
-                    event.preventDefault();
-                    first.focus();
-                }
-            }
-        };
+        this.keyHandler = (e) => { if (e.key === 'Escape' && this.state.modalOpen)
+            this.closeModal(); };
     }
-    componentDidMount() {
-        document.addEventListener('keydown', this.escHandler);
-        this.setupReveal();
-        this.setupSpotlight();
-        this.setupHeroParallax();
-    }
-    componentDidUpdate(_, prevState) {
-        if (prevState.modalOpen !== this.state.modalOpen) {
-            document.body.classList.toggle('modal-open', this.state.modalOpen);
-            if (this.state.modalOpen)
-                setTimeout(() => { var _a; return (_a = document.querySelector('.modal-close')) === null || _a === void 0 ? void 0 : _a.focus(); }, 30);
-        }
-        if (prevState.filter !== this.state.filter || prevState.expanded !== this.state.expanded) {
-            setTimeout(() => this.setupSpotlight(), 0);
-        }
-    }
-    componentWillUnmount() {
-        document.removeEventListener('keydown', this.escHandler);
-    }
-    setupReveal() {
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-            document.querySelectorAll('[data-reveal]').forEach(el => el.classList.add('is-visible'));
-            return;
-        }
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('is-visible');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.08, rootMargin: '0px 0px -7% 0px' });
-        document.querySelectorAll('[data-reveal]').forEach(el => observer.observe(el));
-    }
-    setupSpotlight() {
-        const grid = document.querySelector('.fleet-grid');
-        if (!grid || window.matchMedia('(pointer: coarse)').matches || window.matchMedia('(prefers-reduced-motion: reduce)').matches)
-            return;
-        grid.onpointermove = (event) => {
-            const cards = grid.querySelectorAll('.car-card');
-            cards.forEach((card) => {
-                const rect = card.getBoundingClientRect();
-                card.style.setProperty('--mx', `${event.clientX - rect.left}px`);
-                card.style.setProperty('--my', `${event.clientY - rect.top}px`);
-            });
-        };
-    }
-    setupHeroParallax() {
-        const hero = document.querySelector('.hero-stage');
-        if (!hero || window.matchMedia('(pointer: coarse)').matches || window.matchMedia('(prefers-reduced-motion: reduce)').matches)
-            return;
-        hero.addEventListener('pointermove', (event) => {
-            const rect = hero.getBoundingClientRect();
-            const x = (event.clientX - rect.left) / rect.width - .5;
-            const y = (event.clientY - rect.top) / rect.height - .5;
-            hero.style.setProperty('--px', `${x * 16}px`);
-            hero.style.setProperty('--py', `${y * 10}px`);
-            hero.style.setProperty('--hx', `${event.clientX - rect.left}px`);
-            hero.style.setProperty('--hy', `${event.clientY - rect.top}px`);
-        });
-    }
+    componentDidMount() { document.addEventListener('keydown', this.keyHandler); }
+    componentWillUnmount() { document.removeEventListener('keydown', this.keyHandler); }
+    filteredCars() { const list = this.state.filter === 'all' ? CARS : CARS.filter(c => c.category === this.state.filter); return this.state.expanded || this.state.filter !== 'all' ? list : list.slice(0, 9); }
     renderHeader() {
-        return React.createElement("header", { className: "site-header" },
-            React.createElement("div", { className: "container header-inner" },
-                React.createElement("a", { className: "brand", href: "#top", "aria-label": "RightRentCar \u2014 \u043A \u043D\u0430\u0447\u0430\u043B\u0443 \u0441\u0442\u0440\u0430\u043D\u0438\u0446\u044B" },
-                    React.createElement("span", { className: "brand-mark" }, "R"),
-                    React.createElement("span", { className: "brand-copy" },
-                        React.createElement("strong", null, "RightRentCar"),
-                        React.createElement("small", null, "\u041A\u0440\u044B\u043C \u2022 \u0421\u043E\u0447\u0438"))),
-                React.createElement("nav", { className: 'nav ' + (this.state.menuOpen ? 'is-open' : ''), "aria-label": "\u041E\u0441\u043D\u043E\u0432\u043D\u0430\u044F \u043D\u0430\u0432\u0438\u0433\u0430\u0446\u0438\u044F" },
-                    React.createElement("a", { href: "#fleet", onClick: () => this.setState({ menuOpen: false }) }, "\u0410\u0432\u0442\u043E\u043F\u0430\u0440\u043A"),
-                    React.createElement("a", { href: "#benefits", onClick: () => this.setState({ menuOpen: false }) }, "\u0423\u0441\u043B\u043E\u0432\u0438\u044F"),
-                    React.createElement("a", { href: "#reviews", onClick: () => this.setState({ menuOpen: false }) }, "\u041E\u0442\u0437\u044B\u0432\u044B"),
-                    React.createElement("a", { href: "https://rrentcar.ru/price/", target: "_blank", rel: "noreferrer" }, "\u0426\u0435\u043D\u044B"),
-                    React.createElement("a", { href: "https://rrentcar.ru/kontakty/", target: "_blank", rel: "noreferrer" }, "\u041A\u043E\u043D\u0442\u0430\u043A\u0442\u044B")),
-                React.createElement("div", { className: "header-actions" },
-                    React.createElement("a", { className: "phone-link", href: "tel:+79788576377" },
-                        React.createElement(Icon, { name: "phone", size: 16 }),
-                        React.createElement("span", null, "+7 978 857-63-77")),
-                    React.createElement(Button, { onClick: () => this.openModal(), className: "header-cta" }, "\u0417\u0430\u0431\u0440\u043E\u043D\u0438\u0440\u043E\u0432\u0430\u0442\u044C"),
-                    React.createElement("button", { className: "menu-button", onClick: () => this.setState({ menuOpen: !this.state.menuOpen }), "aria-label": this.state.menuOpen ? 'Закрыть меню' : 'Открыть меню', "aria-expanded": this.state.menuOpen },
-                        React.createElement(Icon, { name: this.state.menuOpen ? 'close' : 'menu', size: 22 })))));
+        return React.createElement(React.Fragment, null,
+            React.createElement("div", { className: "topline" },
+                React.createElement("div", { className: "container topline-inner" },
+                    React.createElement("span", null, "\u0410\u0440\u0435\u043D\u0434\u0430 \u0430\u0432\u0442\u043E\u043C\u043E\u0431\u0438\u043B\u0435\u0439 \u0432 \u041A\u0440\u044B\u043C\u0443 \u0438 \u0421\u043E\u0447\u0438"),
+                    React.createElement("div", null,
+                        React.createElement("a", { href: "tel:+79788576377" }, "+7 978 857-63-77"),
+                        React.createElement("a", { href: "mailto:RightRentCar@gmail.com" }, "RightRentCar@gmail.com")))),
+            React.createElement("header", { className: "site-header" },
+                React.createElement("div", { className: "container header-inner" },
+                    React.createElement("a", { href: "#top", className: "brand-link" },
+                        React.createElement(Brand, null)),
+                    React.createElement("nav", { className: 'nav ' + (this.state.menuOpen ? 'is-open' : ''), "aria-label": "\u041E\u0441\u043D\u043E\u0432\u043D\u0430\u044F \u043D\u0430\u0432\u0438\u0433\u0430\u0446\u0438\u044F" },
+                        React.createElement("a", { href: "#fleet", onClick: () => this.setState({ menuOpen: false }) }, "\u0410\u0432\u0442\u043E\u043F\u0430\u0440\u043A"),
+                        React.createElement("a", { href: "#conditions", onClick: () => this.setState({ menuOpen: false }) }, "\u0423\u0441\u043B\u043E\u0432\u0438\u044F"),
+                        React.createElement("a", { href: "#reviews", onClick: () => this.setState({ menuOpen: false }) }, "\u041E\u0442\u0437\u044B\u0432\u044B"),
+                        React.createElement("a", { href: "https://rrentcar.ru/price/", target: "_blank", rel: "noreferrer" }, "\u0426\u0435\u043D\u044B"),
+                        React.createElement("a", { href: "https://rrentcar.ru/kontakty/", target: "_blank", rel: "noreferrer" }, "\u041A\u043E\u043D\u0442\u0430\u043A\u0442\u044B")),
+                    React.createElement("div", { className: "header-actions" },
+                        React.createElement("a", { className: "header-phone", href: "tel:+79788576377" },
+                            React.createElement(Icon, { name: "phone", size: 17 }),
+                            React.createElement("span", null, "+7 978 857-63-77")),
+                        React.createElement(Button, { onClick: () => this.openModal(), className: "header-book" }, "\u0417\u0430\u0431\u0440\u043E\u043D\u0438\u0440\u043E\u0432\u0430\u0442\u044C"),
+                        React.createElement("button", { className: "menu-btn", "aria-label": "\u041C\u0435\u043D\u044E", onClick: () => this.setState({ menuOpen: !this.state.menuOpen }) },
+                            React.createElement(Icon, { name: this.state.menuOpen ? 'close' : 'menu', size: 22 }))))));
     }
     renderHero() {
         return React.createElement("section", { className: "hero", id: "top" },
             React.createElement("div", { className: "container hero-grid" },
-                React.createElement("div", { className: "hero-copy", "data-reveal": true },
-                    React.createElement("div", { className: "eyebrow" },
-                        React.createElement("span", { className: "eyebrow-dot" }),
-                        "\u0410\u0432\u0442\u043E\u043F\u0430\u0440\u043A RightRentCar"),
+                React.createElement("div", { className: "hero-copy" },
+                    React.createElement("span", { className: "eyebrow" }, "RIGHT RENT CAR \u2022 \u041A\u0420\u042B\u041C \u0418 \u0421\u041E\u0427\u0418"),
                     React.createElement("h1", null,
-                        "\u041C\u0430\u0448\u0438\u043D\u0430 \u0434\u043E\u043B\u0436\u043D\u0430 \u0431\u044B\u0442\u044C \u0447\u0430\u0441\u0442\u044C\u044E ",
-                        React.createElement("span", null, "\u0432\u043F\u0435\u0447\u0430\u0442\u043B\u0435\u043D\u0438\u044F.")),
-                    React.createElement("p", { className: "hero-lead" }, "\u0411\u0438\u0437\u043D\u0435\u0441-\u0441\u0435\u0434\u0430\u043D\u044B, \u043A\u0440\u043E\u0441\u0441\u043E\u0432\u0435\u0440\u044B, \u043A\u0430\u0431\u0440\u0438\u043E\u043B\u0435\u0442\u044B \u0438 \u043C\u0438\u043D\u0438\u0432\u044D\u043D\u044B. \u0412\u044B\u0431\u0438\u0440\u0430\u0439\u0442\u0435 \u043F\u043E \u0445\u0430\u0440\u0430\u043A\u0442\u0435\u0440\u0443 \u043F\u043E\u0435\u0437\u0434\u043A\u0438, \u0430 \u043D\u0435 \u043F\u043E \u0431\u0435\u0441\u043A\u043E\u043D\u0435\u0447\u043D\u043E\u0439 \u0442\u0430\u0431\u043B\u0438\u0446\u0435 \u0445\u0430\u0440\u0430\u043A\u0442\u0435\u0440\u0438\u0441\u0442\u0438\u043A."),
+                        "\u0410\u0440\u0435\u043D\u0434\u0430 \u0430\u0432\u0442\u043E",
+                        React.createElement("br", null),
+                        React.createElement("em", null, "\u0441 \u0445\u0430\u0440\u0430\u043A\u0442\u0435\u0440\u043E\u043C")),
+                    React.createElement("p", null, "\u041A\u0440\u043E\u0441\u0441\u043E\u0432\u0435\u0440\u044B, \u0431\u0438\u0437\u043D\u0435\u0441-\u0441\u0435\u0434\u0430\u043D\u044B, \u043A\u0430\u0431\u0440\u0438\u043E\u043B\u0435\u0442\u044B \u0438 \u043C\u0438\u043D\u0438\u0432\u044D\u043D\u044B \u0434\u043B\u044F \u043F\u043E\u0435\u0437\u0434\u043E\u043A \u043F\u043E \u041A\u0440\u044B\u043C\u0443 \u0438 \u0421\u043E\u0447\u0438. \u0422\u0430\u0440\u0438\u0444, \u0437\u0430\u043B\u043E\u0433 \u0438 \u043E\u0441\u043D\u043E\u0432\u043D\u044B\u0435 \u0443\u0441\u043B\u043E\u0432\u0438\u044F \u0432\u0438\u0434\u043D\u044B \u0441\u0440\u0430\u0437\u0443."),
                     React.createElement("div", { className: "hero-actions" },
                         React.createElement(Button, { onClick: () => { var _a; return (_a = document.querySelector('#fleet')) === null || _a === void 0 ? void 0 : _a.scrollIntoView({ behavior: 'smooth' }); } },
                             "\u0412\u044B\u0431\u0440\u0430\u0442\u044C \u0430\u0432\u0442\u043E\u043C\u043E\u0431\u0438\u043B\u044C ",
                             React.createElement(Icon, { name: "arrow" })),
-                        React.createElement(Button, { variant: "ghost", href: "tel:+79788576377" },
+                        React.createElement(Button, { variant: "secondary", href: "tel:+79788576377" },
                             React.createElement(Icon, { name: "phone" }),
                             " \u041F\u043E\u0437\u0432\u043E\u043D\u0438\u0442\u044C")),
-                    React.createElement("div", { className: "hero-facts", "aria-label": "\u041A\u043B\u044E\u0447\u0435\u0432\u044B\u0435 \u0443\u0441\u043B\u043E\u0432\u0438\u044F" },
-                        React.createElement(FeaturePill, { icon: "shield", label: "\u041E\u0421\u0410\u0413\u041E + \u041A\u0410\u0421\u041A\u041E" }),
-                        React.createElement(FeaturePill, { icon: "route", label: "\u0411\u0435\u0437\u043B\u0438\u043C\u0438\u0442 \u043E\u0442 3 \u0441\u0443\u0442\u043E\u043A" }),
-                        React.createElement(FeaturePill, { icon: "users", label: "\u0412\u043E\u0437\u0440\u0430\u0441\u0442 \u043E\u0442 23 \u043B\u0435\u0442" }))),
-                React.createElement("div", { className: "hero-stage", "data-reveal": true, "aria-label": "\u0410\u0432\u0442\u043E\u043C\u043E\u0431\u0438\u043B\u044C RightRentCar" },
-                    React.createElement("div", { className: "hero-glow" }),
-                    React.createElement("div", { className: "hero-microcopy" },
-                        React.createElement("span", null, "01"),
-                        React.createElement("em", null, "DRIVE MODE")),
-                    React.createElement("img", { src: "./assets/hero-car.svg", alt: "\u0421\u0438\u043B\u0443\u044D\u0442 \u0430\u0432\u0442\u043E\u043C\u043E\u0431\u0438\u043B\u044F", className: "hero-car" }),
-                    React.createElement("div", { className: "road-grid", "aria-hidden": "true" }),
-                    React.createElement("div", { className: "hero-card mini-card" },
-                        React.createElement("span", null, "\u0421\u0442\u0430\u0440\u0442 \u0430\u0440\u0435\u043D\u0434\u044B"),
-                        React.createElement("strong", null, "\u043E\u0442 4 650 \u20BD"),
-                        React.createElement("small", null, "1\u20132 \u0441\u0443\u0442\u043E\u043A \u2022 \u043F\u043E \u0434\u0430\u043D\u043D\u044B\u043C \u0442\u0435\u043A\u0443\u0449\u0435\u0433\u043E \u0430\u0432\u0442\u043E\u043F\u0430\u0440\u043A\u0430")),
-                    React.createElement("div", { className: "hero-card meta-card" },
+                    React.createElement("div", { className: "hero-trust" },
+                        React.createElement("span", null,
+                            React.createElement(Icon, { name: "shield", size: 16 }),
+                            " \u041E\u0421\u0410\u0413\u041E + \u041A\u0410\u0421\u041A\u041E"),
+                        React.createElement("span", null,
+                            React.createElement(Icon, { name: "road", size: 16 }),
+                            " \u0411\u0435\u0437\u043B\u0438\u043C\u0438\u0442 \u043E\u0442 3 \u0441\u0443\u0442\u043E\u043A"),
+                        React.createElement("span", null,
+                            React.createElement(Icon, { name: "users", size: 16 }),
+                            " \u0412\u043E\u0437\u0440\u0430\u0441\u0442 \u043E\u0442 23 \u043B\u0435\u0442"))),
+                React.createElement("div", { className: "hero-visual" },
+                    React.createElement("div", { className: "hero-image-wrap" },
+                        React.createElement("img", { src: "https://rrentcar.ru/media/cache/2d/63/2d636eaa39f91c5d7434cfb60add80bb.jpg", alt: "BMW X4 xDrive \u0438\u0437 \u0430\u0432\u0442\u043E\u043F\u0430\u0440\u043A\u0430 RightRentCar" }),
+                        React.createElement("div", { className: "hero-image-overlay" }),
+                        React.createElement("div", { className: "hero-badge" },
+                            React.createElement("small", null, "\u0410\u0432\u0442\u043E\u043F\u0430\u0440\u043A"),
+                            React.createElement("strong", null, "\u043E\u0442 4 650 \u20BD / \u0441\u0443\u0442\u043A\u0438"))),
+                    React.createElement("div", { className: "orange-panel" },
                         React.createElement("span", null, "\u041A\u0440\u044B\u043C \u2022 \u0421\u043E\u0447\u0438"),
-                        React.createElement("small", null, "RightRentCar")))),
-            React.createElement("div", { className: "container hero-bottomline" },
-                React.createElement("span", null, "SCROLL TO EXPLORE"),
-                React.createElement("i", null),
-                React.createElement("span", null, "2014 \u2014 2026")));
+                        React.createElement("strong", null, "\u041F\u0440\u0430\u0432\u0438\u043B\u044C\u043D\u0430\u044F \u043C\u0430\u0448\u0438\u043D\u0430 \u0434\u043B\u044F \u043F\u0440\u0430\u0432\u0438\u043B\u044C\u043D\u043E\u0439 \u043F\u043E\u0435\u0437\u0434\u043A\u0438.")))));
     }
-    filteredCars() {
-        const filtered = this.state.filter === 'all' ? CARS : CARS.filter(car => car.category === this.state.filter);
-        return this.state.expanded || this.state.filter !== 'all' ? filtered : filtered.slice(0, 8);
-    }
-    renderCarCard(car, index) {
-        const initials = car.name.replace(/[^A-Za-zА-Яа-я0-9 ]/g, '').split(' ').slice(0, 2).map(x => x[0]).join('');
-        return React.createElement("article", { className: "car-card", key: car.name + car.year, "data-reveal": true, style: { '--delay': `${Math.min(index * 40, 240)}ms` } },
-            React.createElement("div", { className: "car-media" },
-                React.createElement("div", { className: "car-fallback", "aria-hidden": "true" },
-                    React.createElement("span", null, initials),
-                    React.createElement("img", { src: "./assets/hero-car.svg", alt: "" })),
-                React.createElement("img", { className: "car-photo", src: car.image, alt: `${car.name}, ${car.year}`, loading: "lazy", onError: (e) => e.currentTarget.classList.add('is-broken') }),
-                React.createElement("div", { className: "car-shade" }),
-                React.createElement("span", { className: "year-chip" }, car.year),
-                car.badge && React.createElement("span", { className: "accent-chip" }, car.badge)),
-            React.createElement("div", { className: "car-content" },
-                React.createElement("div", { className: "car-heading" },
-                    React.createElement("div", null,
-                        React.createElement("span", { className: "car-class" }, car.className),
-                        React.createElement("h3", null, car.name)),
-                    React.createElement("button", { className: "icon-button", onClick: () => this.openModal(car), "aria-label": `Забронировать ${car.name}` },
-                        React.createElement(Icon, { name: "arrow", size: 18 }))),
-                React.createElement("div", { className: "spec-row" },
-                    React.createElement("span", null, car.gearbox),
-                    React.createElement("i", null),
-                    React.createElement("span", null, car.body),
-                    React.createElement("i", null),
-                    React.createElement("span", null, car.drive),
-                    React.createElement("i", null),
-                    React.createElement("span", null,
-                        car.seats,
-                        " \u043C\u0435\u0441\u0442")),
-                React.createElement("div", { className: "price-row" },
-                    React.createElement("div", null,
-                        React.createElement("small", null, "1\u20132 \u0441\u0443\u0442\u043E\u043A"),
-                        React.createElement("strong", null,
-                            money(car.shortPrice),
-                            React.createElement("em", null, "/\u0441\u0443\u0442\u043A\u0438"))),
-                    React.createElement("div", null,
-                        React.createElement("small", null, "10+ \u0441\u0443\u0442\u043E\u043A"),
-                        React.createElement("strong", null,
-                            money(car.longPrice),
-                            React.createElement("em", null, "/\u0441\u0443\u0442\u043A\u0438")))),
-                React.createElement("div", { className: "deposit-row" },
-                    React.createElement("span", null, "\u0417\u0430\u043B\u043E\u0433"),
-                    React.createElement("strong", null, money(car.deposit))),
-                React.createElement(Button, { onClick: () => this.openModal(car), className: "card-cta" },
-                    "\u0417\u0430\u0431\u0440\u043E\u043D\u0438\u0440\u043E\u0432\u0430\u0442\u044C ",
-                    React.createElement(Icon, { name: "arrow", size: 16 }))));
-    }
-    renderFleet() {
-        const cars = this.filteredCars();
-        return React.createElement("section", { className: "fleet section", id: "fleet" },
-            React.createElement("div", { className: "container" },
-                React.createElement("div", { className: "section-head", "data-reveal": true },
-                    React.createElement("div", null,
-                        React.createElement("span", { className: "kicker" }, "\u0410\u0432\u0442\u043E\u043F\u0430\u0440\u043A"),
-                        React.createElement("h2", null, "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u0445\u0430\u0440\u0430\u043A\u0442\u0435\u0440 \u043F\u043E\u0435\u0437\u0434\u043A\u0438")),
-                    React.createElement("p", null, "\u0424\u0438\u043B\u044C\u0442\u0440\u044B \u043E\u0441\u0442\u0430\u0432\u043B\u044F\u044E\u0442 \u043D\u0430 \u044D\u043A\u0440\u0430\u043D\u0435 \u0442\u043E\u043B\u044C\u043A\u043E \u0442\u0435 \u043C\u0430\u0448\u0438\u043D\u044B, \u043A\u043E\u0442\u043E\u0440\u044B\u0435 \u043F\u043E\u0434\u0445\u043E\u0434\u044F\u0442 \u043F\u043E\u0434 \u0441\u0446\u0435\u043D\u0430\u0440\u0438\u0439. \u0426\u0435\u043D\u044B \u043D\u0438\u0436\u0435 \u043F\u0435\u0440\u0435\u043D\u0435\u0441\u0435\u043D\u044B \u0441 \u0430\u043A\u0442\u0443\u0430\u043B\u044C\u043D\u044B\u0445 \u0441\u0442\u0440\u0430\u043D\u0438\u0446 RightRentCar.")),
-                React.createElement("div", { className: "filter-bar", "data-reveal": true, role: "group", "aria-label": "\u0424\u0438\u043B\u044C\u0442\u0440 \u0430\u0432\u0442\u043E\u043F\u0430\u0440\u043A\u0430" }, FILTERS.map(([key, label]) => React.createElement("button", { key: key, className: this.state.filter === key ? 'is-active' : '', onClick: () => this.setState({ filter: key, expanded: true }) }, label))),
-                React.createElement("div", { className: "fleet-grid" }, cars.map((car, i) => this.renderCarCard(car, i))),
-                this.state.filter === 'all' && !this.state.expanded && React.createElement("div", { className: "center-action", "data-reveal": true },
-                    React.createElement(Button, { variant: "outline", onClick: () => this.setState({ expanded: true }) },
-                        "\u041F\u043E\u043A\u0430\u0437\u0430\u0442\u044C \u0432\u0441\u0435 \u0430\u0432\u0442\u043E\u043C\u043E\u0431\u0438\u043B\u0438 ",
-                        React.createElement("span", { className: "count-chip" }, CARS.length)))));
-    }
-    renderBenefits() {
-        const benefits = [
-            { n: '01', title: 'Страхование', text: 'Все автомобили застрахованы по ОСАГО и КАСКО. Условия франшизы зависят от класса автомобиля.' },
-            { n: '02', title: 'Пробег', text: 'От 3 суток — безлимитный пробег. Для аренды на 1–2 дня в тариф включено до 200 км в сутки.' },
-            { n: '03', title: 'Документы', text: 'Для физического лица нужны паспорт и водительское удостоверение. Минимальный возраст — 23 года.' },
-            { n: '04', title: 'Депозит', text: 'Размер депозита указан в карточке автомобиля и возвращается при соблюдении условий договора.' }
-        ];
-        return React.createElement("section", { className: "benefits section", id: "benefits" },
-            React.createElement("div", { className: "container" },
-                React.createElement("div", { className: "benefits-panel", "data-reveal": true },
-                    React.createElement("div", { className: "benefit-intro" },
-                        React.createElement("span", { className: "kicker" }, "\u041F\u0435\u0440\u0435\u0434 \u043F\u043E\u0435\u0437\u0434\u043A\u043E\u0439"),
-                        React.createElement("h2", null, "\u041A\u043B\u044E\u0447\u0435\u0432\u044B\u0435 \u0443\u0441\u043B\u043E\u0432\u0438\u044F \u0430\u0440\u0435\u043D\u0434\u044B"),
-                        React.createElement("p", null, "\u0417\u0434\u0435\u0441\u044C \u0441\u043E\u0431\u0440\u0430\u043D\u044B \u043E\u0441\u043D\u043E\u0432\u043D\u044B\u0435 \u043F\u0440\u0430\u0432\u0438\u043B\u0430. \u041F\u043E\u043B\u043D\u0430\u044F \u0444\u043E\u0440\u043C\u0443\u043B\u0438\u0440\u043E\u0432\u043A\u0430 \u0438 \u0434\u043E\u043F\u043E\u043B\u043D\u0438\u0442\u0435\u043B\u044C\u043D\u044B\u0435 \u0443\u0441\u043B\u043E\u0432\u0438\u044F \u0434\u043E\u0441\u0442\u0443\u043F\u043D\u044B \u043D\u0430 \u0441\u0442\u0440\u0430\u043D\u0438\u0446\u0435 RightRentCar."),
-                        React.createElement(Button, { variant: "outline", href: "https://rrentcar.ru/usloviya/", external: true },
-                            "\u0412\u0441\u0435 \u0443\u0441\u043B\u043E\u0432\u0438\u044F ",
-                            React.createElement(Icon, { name: "arrow", size: 16 }))),
-                    React.createElement("div", { className: "benefit-list" }, benefits.map(item => React.createElement("div", { className: "benefit-item", key: item.n },
-                        React.createElement("span", null, item.n),
-                        React.createElement("div", null,
-                            React.createElement("h3", null, item.title),
-                            React.createElement("p", null, item.text))))))));
-    }
-    renderStory() {
-        return React.createElement("section", { className: "story section", id: "reviews" },
-            React.createElement("div", { className: "container story-grid" },
-                React.createElement("div", { className: "story-visual", "data-reveal": true },
-                    React.createElement("div", { className: "story-orbit" }),
-                    React.createElement("div", { className: "story-number" }, "5.0"),
-                    React.createElement("p", null, "\u0420\u0435\u0439\u0442\u0438\u043D\u0433, \u043A\u043E\u0442\u043E\u0440\u044B\u0439 \u043A\u043E\u043C\u043F\u0430\u043D\u0438\u044F \u0443\u043A\u0430\u0437\u044B\u0432\u0430\u0435\u0442 \u043D\u0430 \u0441\u0432\u043E\u0435\u043C \u0441\u0430\u0439\u0442\u0435"),
-                    React.createElement("a", { href: "https://rrentcar.ru/feedback/", target: "_blank", rel: "noreferrer" },
-                        "\u0421\u043C\u043E\u0442\u0440\u0435\u0442\u044C \u043E\u0442\u0437\u044B\u0432\u044B ",
-                        React.createElement(Icon, { name: "arrow", size: 15 }))),
-                React.createElement("div", { className: "story-copy", "data-reveal": true },
-                    React.createElement("span", { className: "kicker" }, "\u041E\u0442\u0437\u044B\u0432\u044B \u043F\u0443\u0442\u0435\u0448\u0435\u0441\u0442\u0432\u0435\u043D\u043D\u0438\u043A\u043E\u0432"),
-                    React.createElement("blockquote", null, "\u00AB\u0412\u0441\u0435 \u0431\u044B\u043B\u043E \u043F\u0440\u043E\u0441\u0442\u043E, \u0431\u044B\u0441\u0442\u0440\u043E \u0438 \u043A\u043E\u043C\u0444\u043E\u0440\u0442\u043D\u043E, \u0441\u0435\u0440\u0432\u0438\u0441 \u043A\u0430\u043A \u0432 \u0415\u0432\u0440\u043E\u043F\u0435!\u00BB"),
-                    React.createElement("div", { className: "quote-meta" },
-                        React.createElement("strong", null, "\u0410\u043D\u043D\u0430 \u0438 \u041D\u0438\u043A\u0438\u0442\u0430"),
-                        React.createElement("span", null, "\u043E\u0442\u0437\u044B\u0432 \u043D\u0430 \u0441\u0430\u0439\u0442\u0435 RightRentCar")),
-                    React.createElement("p", { className: "story-text" }, "\u0412 \u043E\u0442\u0437\u044B\u0432\u0430\u0445 \u0447\u0430\u0449\u0435 \u0432\u0441\u0435\u0433\u043E \u043F\u043E\u0432\u0442\u043E\u0440\u044F\u044E\u0442\u0441\u044F \u0442\u0440\u0438 \u0432\u0435\u0449\u0438: \u0441\u043E\u0441\u0442\u043E\u044F\u043D\u0438\u0435 \u043C\u0430\u0448\u0438\u043D, \u0441\u043A\u043E\u0440\u043E\u0441\u0442\u044C \u0432\u044B\u0434\u0430\u0447\u0438 \u0438 \u0432\u043E\u0437\u043C\u043E\u0436\u043D\u043E\u0441\u0442\u044C \u043F\u0443\u0442\u0435\u0448\u0435\u0441\u0442\u0432\u043E\u0432\u0430\u0442\u044C \u043F\u043E \u043F\u043E\u043B\u0443\u043E\u0441\u0442\u0440\u043E\u0432\u0443 \u0431\u0435\u0437 \u043F\u0440\u0438\u0432\u044F\u0437\u043A\u0438 \u043A \u043E\u0431\u0449\u0435\u0441\u0442\u0432\u0435\u043D\u043D\u043E\u043C\u0443 \u0442\u0440\u0430\u043D\u0441\u043F\u043E\u0440\u0442\u0443."))));
-    }
-    renderCTA() {
-        return React.createElement("section", { className: "cta-section section", "data-reveal": true },
-            React.createElement("div", { className: "container" },
-                React.createElement("div", { className: "cta-panel" },
-                    React.createElement("div", null,
-                        React.createElement("span", { className: "kicker" }, "\u0413\u043E\u0442\u043E\u0432\u044B \u0435\u0445\u0430\u0442\u044C?"),
-                        React.createElement("h2", null, "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u043C\u0430\u0448\u0438\u043D\u0443. \u041E\u0441\u0442\u0430\u043B\u044C\u043D\u043E\u0435 \u0443\u0442\u043E\u0447\u043D\u0438\u043C."),
-                        React.createElement("p", null, "\u041E\u0441\u0442\u0430\u0432\u044C\u0442\u0435 \u043A\u043E\u043D\u0442\u0430\u043A\u0442\u044B \u0438\u043B\u0438 \u043F\u043E\u0437\u0432\u043E\u043D\u0438\u0442\u0435 \u043F\u043E \u043D\u043E\u043C\u0435\u0440\u0443, \u0443\u043A\u0430\u0437\u0430\u043D\u043D\u043E\u043C\u0443 \u043D\u0430 \u0434\u0435\u0439\u0441\u0442\u0432\u0443\u044E\u0449\u0435\u043C \u0441\u0430\u0439\u0442\u0435 RightRentCar.")),
-                    React.createElement("div", { className: "cta-actions" },
-                        React.createElement(Button, { onClick: () => this.openModal() },
-                            "\u041E\u0441\u0442\u0430\u0432\u0438\u0442\u044C \u0437\u0430\u044F\u0432\u043A\u0443 ",
-                            React.createElement(Icon, { name: "arrow" })),
-                        React.createElement("a", { href: "tel:+79788576377" }, "+7 978 857-63-77")))));
-    }
-    renderFooter() {
-        return React.createElement("footer", { className: "footer" },
-            React.createElement("div", { className: "container footer-grid" },
+    renderCard(car, index) { return React.createElement("article", { className: "car-card", key: car.name + car.year, style: { '--i': index } },
+        React.createElement("div", { className: "car-media" },
+            React.createElement("img", { src: car.image, alt: `${car.name}, ${car.year}`, loading: "lazy" }),
+            React.createElement("span", { className: "year-chip" }, car.year),
+            car.badge && React.createElement("span", { className: "badge-chip" }, car.badge)),
+        React.createElement("div", { className: "car-body" },
+            React.createElement("div", { className: "car-title" },
                 React.createElement("div", null,
-                    React.createElement("a", { className: "brand footer-brand", href: "#top" },
-                        React.createElement("span", { className: "brand-mark" }, "R"),
-                        React.createElement("span", { className: "brand-copy" },
-                            React.createElement("strong", null, "RightRentCar"),
-                            React.createElement("small", null, "\u041A\u0440\u044B\u043C \u2022 \u0421\u043E\u0447\u0438"))),
-                    React.createElement("p", null, "\u0410\u0440\u0435\u043D\u0434\u0430 \u0430\u0432\u0442\u043E\u043C\u043E\u0431\u0438\u043B\u0435\u0439 \u0432 \u041A\u0440\u044B\u043C\u0443 \u0438 \u0421\u043E\u0447\u0438.")),
+                    React.createElement("span", null, car.className),
+                    React.createElement("h3", null, car.name)),
+                React.createElement("button", { onClick: () => this.openModal(car), "aria-label": `Забронировать ${car.name}` },
+                    React.createElement(Icon, { name: "arrow", size: 17 }))),
+            React.createElement("div", { className: "specs" },
+                React.createElement("span", null, car.gearbox),
+                React.createElement("span", null, car.body),
+                React.createElement("span", null, car.drive),
+                React.createElement("span", null,
+                    car.seats,
+                    " \u043C\u0435\u0441\u0442")),
+            React.createElement("div", { className: "price-block" },
                 React.createElement("div", null,
-                    React.createElement("strong", null, "\u041D\u0430\u0432\u0438\u0433\u0430\u0446\u0438\u044F"),
-                    React.createElement("a", { href: "#fleet" }, "\u0410\u0432\u0442\u043E\u043F\u0430\u0440\u043A"),
-                    React.createElement("a", { href: "#benefits" }, "\u0423\u0441\u043B\u043E\u0432\u0438\u044F"),
-                    React.createElement("a", { href: "#reviews" }, "\u041E\u0442\u0437\u044B\u0432\u044B")),
+                    React.createElement("small", null, "1\u20132 \u0441\u0443\u0442\u043E\u043A"),
+                    React.createElement("strong", null, money(car.shortPrice)),
+                    React.createElement("em", null, "/\u0441\u0443\u0442\u043A\u0438")),
                 React.createElement("div", null,
-                    React.createElement("strong", null, "\u041D\u0430 \u0441\u0430\u0439\u0442\u0435"),
-                    React.createElement("a", { href: "https://rrentcar.ru/price/", target: "_blank", rel: "noreferrer" }, "\u0426\u0435\u043D\u044B"),
-                    React.createElement("a", { href: "https://rrentcar.ru/online-oplata/", target: "_blank", rel: "noreferrer" }, "\u041E\u043D\u043B\u0430\u0439\u043D-\u043E\u043F\u043B\u0430\u0442\u0430"),
-                    React.createElement("a", { href: "https://rrentcar.ru/kontakty/", target: "_blank", rel: "noreferrer" }, "\u041A\u043E\u043D\u0442\u0430\u043A\u0442\u044B")),
+                    React.createElement("small", null, "10+ \u0441\u0443\u0442\u043E\u043A"),
+                    React.createElement("strong", null, money(car.longPrice)),
+                    React.createElement("em", null, "/\u0441\u0443\u0442\u043A\u0438"))),
+            React.createElement("div", { className: "deposit" },
+                React.createElement("span", null, "\u0417\u0430\u043B\u043E\u0433"),
+                React.createElement("strong", null, money(car.deposit))),
+            React.createElement(Button, { onClick: () => this.openModal(car), className: "card-button" }, "\u0417\u0430\u0431\u0440\u043E\u043D\u0438\u0440\u043E\u0432\u0430\u0442\u044C"))); }
+    renderFleet() { const cars = this.filteredCars(); return React.createElement("section", { className: "fleet", id: "fleet" },
+        React.createElement("div", { className: "container" },
+            React.createElement("div", { className: "section-heading" },
                 React.createElement("div", null,
-                    React.createElement("strong", null, "\u0421\u0432\u044F\u0437\u044C"),
-                    React.createElement("a", { href: "tel:+79788576377" }, "+7 978 857-63-77"),
-                    React.createElement("a", { href: "mailto:RightRentCar@gmail.com" }, "RightRentCar@gmail.com"),
-                    React.createElement("span", null, "\u041E\u041E\u041E \u00AB\u041D\u043E\u0432\u043E\u0435 \u0440\u0435\u0448\u0435\u043D\u0438\u0435\u00BB"))),
-            React.createElement("div", { className: "container footer-bottom" },
-                React.createElement("span", null, "\u00A9 2014\u20132026 RightRentCar"),
-                React.createElement("span", null, "RightRentCar")));
-    }
-    renderModal() {
-        if (!this.state.modalOpen)
-            return null;
-        const car = this.state.selected;
-        return React.createElement("div", { className: "modal-backdrop", role: "presentation", onMouseDown: (e) => { if (e.target === e.currentTarget)
-                this.closeModal(); } },
-            React.createElement("div", { className: "modal", role: "dialog", "aria-modal": "true", "aria-labelledby": "booking-title" },
-                React.createElement("button", { className: "modal-close", onClick: this.closeModal, "aria-label": "\u0417\u0430\u043A\u0440\u044B\u0442\u044C \u0444\u043E\u0440\u043C\u0443" },
-                    React.createElement(Icon, { name: "close", size: 20 })),
-                !this.state.formSent ? React.createElement("div", { className: "booking-form-wrap" },
-                    React.createElement("span", { className: "kicker" }, "\u0411\u0440\u043E\u043D\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u0435"),
-                    React.createElement("h2", { id: "booking-title" }, car ? car.name : 'Подобрать автомобиль'),
-                    React.createElement("p", null, car ? `${car.year} • ${car.className} • от ${money(car.shortPrice)} в сутки` : 'Оставьте контакты и укажите даты или пожелания к автомобилю.'),
-                    React.createElement("form", { onSubmit: this.submitBooking, noValidate: true },
-                        React.createElement("label", null,
-                            "\u041A\u0430\u043A \u043A \u0432\u0430\u043C \u043E\u0431\u0440\u0430\u0449\u0430\u0442\u044C\u0441\u044F",
-                            React.createElement("input", { name: "name", required: true, autoComplete: "name", placeholder: "\u0418\u043C\u044F", "aria-invalid": this.state.formError || undefined })),
-                        React.createElement("label", null,
-                            "\u0422\u0435\u043B\u0435\u0444\u043E\u043D",
-                            React.createElement("input", { name: "phone", required: true, autoComplete: "tel", inputMode: "tel", placeholder: "+7 999 000-00-00", "aria-invalid": this.state.formError || undefined })),
-                        React.createElement("label", null,
-                            "\u041A\u043E\u043C\u043C\u0435\u043D\u0442\u0430\u0440\u0438\u0439",
-                            React.createElement("textarea", { name: "comment", placeholder: car ? `Например: ${car.name}, с 12 по 17 октября` : 'Даты, класс автомобиля, пожелания' })),
-                        this.state.formError && React.createElement("div", { className: "form-error", role: "alert" }, "\u0417\u0430\u043F\u043E\u043B\u043D\u0438\u0442\u0435 \u0438\u043C\u044F \u0438 \u0443\u043A\u0430\u0436\u0438\u0442\u0435 \u043A\u043E\u0440\u0440\u0435\u043A\u0442\u043D\u044B\u0439 \u043D\u043E\u043C\u0435\u0440 \u0442\u0435\u043B\u0435\u0444\u043E\u043D\u0430."),
-                        React.createElement("div", { className: "form-note" }, "\u041F\u043E\u0441\u043B\u0435 \u043F\u0440\u043E\u0432\u0435\u0440\u043A\u0438 \u043E\u0442\u043A\u0440\u043E\u0435\u0442\u0441\u044F \u0433\u043E\u0442\u043E\u0432\u043E\u0435 \u043F\u0438\u0441\u044C\u043C\u043E \u043D\u0430 \u043E\u0444\u0438\u0446\u0438\u0430\u043B\u044C\u043D\u044B\u0439 email RightRentCar. \u0414\u0430\u043D\u043D\u044B\u0435 \u043D\u0435 \u043E\u0442\u043F\u0440\u0430\u0432\u043B\u044F\u044E\u0442\u0441\u044F \u0441\u0442\u043E\u0440\u043E\u043D\u043D\u0438\u043C \u0441\u0435\u0440\u0432\u0438\u0441\u0430\u043C."),
-                        React.createElement(Button, { type: "submit" },
-                            "\u041F\u0440\u043E\u0434\u043E\u043B\u0436\u0438\u0442\u044C ",
-                            React.createElement(Icon, { name: "arrow", size: 16 })))) : React.createElement("div", { className: "form-success", "aria-live": "polite" },
-                    React.createElement("div", { className: "success-icon" },
-                        React.createElement(Icon, { name: "check", size: 28 })),
-                    React.createElement("span", { className: "kicker" }, "\u0417\u0430\u044F\u0432\u043A\u0430 \u0433\u043E\u0442\u043E\u0432\u0430"),
-                    React.createElement("h2", { id: "booking-title" }, "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u0443\u0434\u043E\u0431\u043D\u044B\u0439 \u0441\u043F\u043E\u0441\u043E\u0431 \u0441\u0432\u044F\u0437\u0438"),
-                    React.createElement("p", null, "\u041E\u0442\u043A\u0440\u043E\u0439\u0442\u0435 \u043F\u043E\u0434\u0433\u043E\u0442\u043E\u0432\u043B\u0435\u043D\u043D\u043E\u0435 \u043F\u0438\u0441\u044C\u043C\u043E \u0438\u043B\u0438 \u043F\u043E\u0437\u0432\u043E\u043D\u0438\u0442\u0435 \u0432 RightRentCar."),
-                    React.createElement("div", { className: "success-actions" },
-                        React.createElement(Button, { href: this.state.mailtoHref },
-                            React.createElement(Icon, { name: "mail" }),
-                            " \u041E\u0442\u043A\u0440\u044B\u0442\u044C \u043F\u0438\u0441\u044C\u043C\u043E"),
-                        React.createElement(Button, { variant: "outline", href: "tel:+79788576377" },
-                            React.createElement(Icon, { name: "phone" }),
-                            " \u041F\u043E\u0437\u0432\u043E\u043D\u0438\u0442\u044C")))));
-    }
-    render() {
-        return React.createElement("div", { className: "site-shell" },
-            this.renderHeader(),
-            React.createElement("main", null,
-                this.renderHero(),
-                this.renderFleet(),
-                this.renderBenefits(),
-                this.renderStory(),
-                this.renderCTA()),
-            this.renderFooter(),
-            this.renderModal());
-    }
+                    React.createElement("span", { className: "eyebrow" }, "\u0410\u0412\u0422\u041E\u041F\u0410\u0420\u041A"),
+                    React.createElement("h2", null, "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u043C\u0430\u0448\u0438\u043D\u0443 \u043F\u043E\u0434 \u043F\u043E\u0435\u0437\u0434\u043A\u0443")),
+                React.createElement("p", null, "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u043F\u043E\u0434\u0445\u043E\u0434\u044F\u0449\u0438\u0439 \u043A\u043B\u0430\u0441\u0441, \u0447\u0442\u043E\u0431\u044B \u0431\u044B\u0441\u0442\u0440\u0435\u0435 \u043D\u0430\u0439\u0442\u0438 \u043C\u0430\u0448\u0438\u043D\u0443 \u0434\u043B\u044F \u0433\u043E\u0440\u043E\u0434\u0430, \u043F\u043E\u0431\u0435\u0440\u0435\u0436\u044C\u044F, \u0434\u0435\u043B\u043E\u0432\u043E\u0439 \u043F\u043E\u0435\u0437\u0434\u043A\u0438 \u0438\u043B\u0438 \u0431\u043E\u043B\u044C\u0448\u043E\u0439 \u043A\u043E\u043C\u043F\u0430\u043D\u0438\u0438.")),
+            React.createElement("div", { className: "filters", role: "group", "aria-label": "\u0424\u0438\u043B\u044C\u0442\u0440 \u0430\u0432\u0442\u043E\u043F\u0430\u0440\u043A\u0430" }, FILTERS.map(([k, l]) => React.createElement("button", { key: k, className: this.state.filter === k ? 'active' : '', onClick: () => this.setFilter(k) }, l))),
+            React.createElement("div", { className: "fleet-grid", id: "fleet-grid" }, cars.length ? cars.map((c, i) => this.renderCard(c, i)) : React.createElement("div", { className: "empty-state" }, "\u0412 \u044D\u0442\u043E\u0439 \u043A\u0430\u0442\u0435\u0433\u043E\u0440\u0438\u0438 \u043F\u043E\u043A\u0430 \u043D\u0435\u0442 \u0430\u0432\u0442\u043E\u043C\u043E\u0431\u0438\u043B\u0435\u0439.")),
+            this.state.filter === 'all' && !this.state.expanded && React.createElement("div", { className: "show-all" },
+                React.createElement(Button, { variant: "secondary", onClick: () => this.setState({ expanded: true }) },
+                    "\u041F\u043E\u043A\u0430\u0437\u0430\u0442\u044C \u0432\u0435\u0441\u044C \u0430\u0432\u0442\u043E\u043F\u0430\u0440\u043A (",
+                    CARS.length,
+                    ")")))); }
+    renderConditions() { return React.createElement("section", { className: "conditions", id: "conditions" },
+        React.createElement("div", { className: "container conditions-grid" },
+            React.createElement("div", { className: "conditions-copy" },
+                React.createElement("span", { className: "eyebrow" }, "\u0423\u0421\u041B\u041E\u0412\u0418\u042F"),
+                React.createElement("h2", null, "\u0413\u043B\u0430\u0432\u043D\u043E\u0435 \u0431\u0435\u0437 \u043C\u0435\u043B\u043A\u043E\u0433\u043E \u0448\u0440\u0438\u0444\u0442\u0430"),
+                React.createElement("p", null, "\u041D\u0430 \u043A\u0430\u0440\u0442\u043E\u0447\u043A\u0430\u0445 \u0443\u0436\u0435 \u0432\u0438\u0434\u043D\u044B \u0442\u0430\u0440\u0438\u0444 \u0438 \u0437\u0430\u043B\u043E\u0433. \u041F\u0435\u0440\u0435\u0434 \u0431\u0440\u043E\u043D\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u0435\u043C \u043C\u043E\u0436\u043D\u043E \u0431\u044B\u0441\u0442\u0440\u043E \u0441\u0432\u0435\u0440\u0438\u0442\u044C \u043E\u0441\u043D\u043E\u0432\u043D\u044B\u0435 \u043F\u0440\u0430\u0432\u0438\u043B\u0430 \u0430\u0440\u0435\u043D\u0434\u044B."),
+                React.createElement(Button, { variant: "secondary", href: "https://rrentcar.ru/usloviya/", external: true },
+                    "\u0412\u0441\u0435 \u0443\u0441\u043B\u043E\u0432\u0438\u044F \u043D\u0430 RightRentCar ",
+                    React.createElement(Icon, { name: "arrow", size: 16 }))),
+            React.createElement("div", { className: "conditions-list" },
+                React.createElement("div", null,
+                    React.createElement("b", null, "01"),
+                    React.createElement("h3", null, "\u0421\u0442\u0440\u0430\u0445\u043E\u0432\u0430\u043D\u0438\u0435"),
+                    React.createElement("p", null, "\u0412\u0441\u0435 \u0430\u0432\u0442\u043E\u043C\u043E\u0431\u0438\u043B\u0438 \u0437\u0430\u0441\u0442\u0440\u0430\u0445\u043E\u0432\u0430\u043D\u044B \u043F\u043E \u041E\u0421\u0410\u0413\u041E \u0438 \u041A\u0410\u0421\u041A\u041E.")),
+                React.createElement("div", null,
+                    React.createElement("b", null, "02"),
+                    React.createElement("h3", null, "\u041F\u0440\u043E\u0431\u0435\u0433"),
+                    React.createElement("p", null, "\u041E\u0442 3 \u0441\u0443\u0442\u043E\u043A \u043F\u0440\u0435\u0434\u043E\u0441\u0442\u0430\u0432\u043B\u044F\u0435\u0442\u0441\u044F \u0431\u0435\u0437\u043B\u0438\u043C\u0438\u0442\u043D\u044B\u0439 \u043F\u0440\u043E\u0431\u0435\u0433. \u041D\u0430 1\u20132 \u0434\u043D\u044F \u0432 \u0442\u0430\u0440\u0438\u0444 \u0432\u0445\u043E\u0434\u0438\u0442 \u0434\u043E 200 \u043A\u043C \u0432 \u0441\u0443\u0442\u043A\u0438.")),
+                React.createElement("div", null,
+                    React.createElement("b", null, "03"),
+                    React.createElement("h3", null, "\u0412\u043E\u0437\u0440\u0430\u0441\u0442 \u0438 \u0441\u0442\u0430\u0436"),
+                    React.createElement("p", null, "\u041C\u0438\u043D\u0438\u043C\u0430\u043B\u044C\u043D\u044B\u0439 \u0432\u043E\u0437\u0440\u0430\u0441\u0442 \u0432\u043E\u0434\u0438\u0442\u0435\u043B\u044F 23 \u0433\u043E\u0434\u0430, \u043C\u0438\u043D\u0438\u043C\u0430\u043B\u044C\u043D\u044B\u0439 \u0441\u0442\u0430\u0436 3 \u0433\u043E\u0434\u0430. \u0414\u043B\u044F \u043E\u0442\u0434\u0435\u043B\u044C\u043D\u044B\u0445 \u043A\u0430\u0442\u0435\u0433\u043E\u0440\u0438\u0439 \u0442\u0440\u0435\u0431\u043E\u0432\u0430\u043D\u0438\u044F \u0432\u044B\u0448\u0435.")),
+                React.createElement("div", null,
+                    React.createElement("b", null, "04"),
+                    React.createElement("h3", null, "\u041E\u043F\u043B\u0430\u0442\u0430"),
+                    React.createElement("p", null, "\u041E\u043F\u043B\u0430\u0442\u0430 \u043F\u0440\u043E\u0438\u0437\u0432\u043E\u0434\u0438\u0442\u0441\u044F \u0432\u043F\u0435\u0440\u0451\u0434 \u0437\u0430 \u0432\u0435\u0441\u044C \u0441\u0440\u043E\u043A \u0430\u0440\u0435\u043D\u0434\u044B."))))); }
+    renderReviews() { return React.createElement("section", { className: "reviews", id: "reviews" },
+        React.createElement("div", { className: "container review-card" },
+            React.createElement("div", { className: "review-score" },
+                React.createElement("span", null, "5,0"),
+                React.createElement("small", null, "\u0440\u0435\u0439\u0442\u0438\u043D\u0433, \u0443\u043A\u0430\u0437\u0430\u043D\u043D\u044B\u0439 \u043A\u043E\u043C\u043F\u0430\u043D\u0438\u0435\u0439 \u043D\u0430 \u0441\u0430\u0439\u0442\u0435")),
+            React.createElement("div", { className: "review-copy" },
+                React.createElement("span", { className: "eyebrow" }, "\u041E\u0422\u0417\u042B\u0412\u042B"),
+                React.createElement("blockquote", null, "\u00AB\u0412\u0441\u0435 \u0431\u044B\u043B\u043E \u043F\u0440\u043E\u0441\u0442\u043E, \u0431\u044B\u0441\u0442\u0440\u043E \u0438 \u043A\u043E\u043C\u0444\u043E\u0440\u0442\u043D\u043E, \u0441\u0435\u0440\u0432\u0438\u0441 \u043A\u0430\u043A \u0432 \u0415\u0432\u0440\u043E\u043F\u0435!\u00BB"),
+                React.createElement("p", null, "\u0410\u043D\u043D\u0430 \u0438 \u041D\u0438\u043A\u0438\u0442\u0430 \u2022 \u043E\u0442\u0437\u044B\u0432 \u043D\u0430 \u0441\u0430\u0439\u0442\u0435 RightRentCar"),
+                React.createElement("a", { href: "https://rrentcar.ru/feedback/", target: "_blank", rel: "noreferrer" },
+                    "\u041F\u043E\u0441\u043C\u043E\u0442\u0440\u0435\u0442\u044C \u043E\u0442\u0437\u044B\u0432\u044B ",
+                    React.createElement(Icon, { name: "arrow", size: 15 }))))); }
+    renderCTA() { return React.createElement("section", { className: "cta" },
+        React.createElement("div", { className: "container cta-inner" },
+            React.createElement("div", null,
+                React.createElement("span", { className: "eyebrow" }, "\u0411\u0420\u041E\u041D\u0418\u0420\u041E\u0412\u0410\u041D\u0418\u0415"),
+                React.createElement("h2", null,
+                    "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u0430\u0432\u0442\u043E\u043C\u043E\u0431\u0438\u043B\u044C.",
+                    React.createElement("br", null),
+                    "\u041E\u0441\u0442\u0430\u043B\u044C\u043D\u043E\u0435 \u0443\u0442\u043E\u0447\u043D\u0438\u043C.")),
+            React.createElement("div", null,
+                React.createElement(Button, { onClick: () => this.openModal() },
+                    "\u041E\u0441\u0442\u0430\u0432\u0438\u0442\u044C \u0437\u0430\u044F\u0432\u043A\u0443 ",
+                    React.createElement(Icon, { name: "arrow" })),
+                React.createElement("a", { href: "tel:+79788576377" }, "+7 978 857-63-77")))); }
+    renderFooter() { return React.createElement("footer", { className: "footer" },
+        React.createElement("div", { className: "container footer-inner" },
+            React.createElement("div", null,
+                React.createElement(Brand, null),
+                React.createElement("p", null, "\u0410\u0440\u0435\u043D\u0434\u0430 \u0430\u0432\u0442\u043E\u043C\u043E\u0431\u0438\u043B\u0435\u0439 \u0432 \u041A\u0440\u044B\u043C\u0443 \u0438 \u0421\u043E\u0447\u0438.")),
+            React.createElement("div", null,
+                React.createElement("a", { href: "#fleet" }, "\u0410\u0432\u0442\u043E\u043F\u0430\u0440\u043A"),
+                React.createElement("a", { href: "#conditions" }, "\u0423\u0441\u043B\u043E\u0432\u0438\u044F"),
+                React.createElement("a", { href: "#reviews" }, "\u041E\u0442\u0437\u044B\u0432\u044B")),
+            React.createElement("div", null,
+                React.createElement("a", { href: "https://rrentcar.ru/price/", target: "_blank", rel: "noreferrer" }, "\u0426\u0435\u043D\u044B"),
+                React.createElement("a", { href: "https://rrentcar.ru/online-oplata/", target: "_blank", rel: "noreferrer" }, "\u041E\u043F\u043B\u0430\u0442\u0430"),
+                React.createElement("a", { href: "https://rrentcar.ru/kontakty/", target: "_blank", rel: "noreferrer" }, "\u041A\u043E\u043D\u0442\u0430\u043A\u0442\u044B")),
+            React.createElement("div", null,
+                React.createElement("a", { href: "tel:+79788576377" }, "+7 978 857-63-77"),
+                React.createElement("a", { href: "mailto:RightRentCar@gmail.com" }, "RightRentCar@gmail.com"),
+                React.createElement("span", null, "\u041E\u041E\u041E \u00AB\u041D\u043E\u0432\u043E\u0435 \u0440\u0435\u0448\u0435\u043D\u0438\u0435\u00BB"))),
+        React.createElement("div", { className: "container copyright" }, "\u00A9 2014\u20132026 RightRentCar")); }
+    renderModal() { if (!this.state.modalOpen)
+        return null; const car = this.state.selected; return React.createElement("div", { className: "modal-backdrop", onMouseDown: (e) => { if (e.target === e.currentTarget)
+            this.closeModal(); } },
+        React.createElement("div", { className: "modal", role: "dialog", "aria-modal": "true", "aria-labelledby": "modal-title" },
+            React.createElement("button", { className: "modal-close", onClick: this.closeModal, "aria-label": "\u0417\u0430\u043A\u0440\u044B\u0442\u044C" },
+                React.createElement(Icon, { name: "close" })),
+            !this.state.formSent ? React.createElement(React.Fragment, null,
+                React.createElement("span", { className: "eyebrow" }, "\u0411\u0420\u041E\u041D\u0418\u0420\u041E\u0412\u0410\u041D\u0418\u0415"),
+                React.createElement("h2", { id: "modal-title" }, car ? car.name : 'Подобрать автомобиль'),
+                React.createElement("p", null, car ? `${car.year} • ${car.className} • от ${money(car.shortPrice)} в сутки` : 'Оставьте контакты и пожелания по автомобилю.'),
+                React.createElement("form", { onSubmit: this.submitBooking, noValidate: true },
+                    React.createElement("label", null,
+                        "\u0418\u043C\u044F",
+                        React.createElement("input", { name: "name", autoComplete: "name", placeholder: "\u041A\u0430\u043A \u043A \u0432\u0430\u043C \u043E\u0431\u0440\u0430\u0449\u0430\u0442\u044C\u0441\u044F" })),
+                    React.createElement("label", null,
+                        "\u0422\u0435\u043B\u0435\u0444\u043E\u043D",
+                        React.createElement("input", { name: "phone", autoComplete: "tel", inputMode: "tel", placeholder: "+7 999 000-00-00" })),
+                    React.createElement("label", null,
+                        "\u041A\u043E\u043C\u043C\u0435\u043D\u0442\u0430\u0440\u0438\u0439",
+                        React.createElement("textarea", { name: "comment", placeholder: "\u0414\u0430\u0442\u044B \u0438 \u043F\u043E\u0436\u0435\u043B\u0430\u043D\u0438\u044F" })),
+                    this.state.formError && React.createElement("div", { className: "form-error" }, "\u0423\u043A\u0430\u0436\u0438\u0442\u0435 \u0438\u043C\u044F \u0438 \u043A\u043E\u0440\u0440\u0435\u043A\u0442\u043D\u044B\u0439 \u043D\u043E\u043C\u0435\u0440 \u0442\u0435\u043B\u0435\u0444\u043E\u043D\u0430."),
+                    React.createElement(Button, { type: "submit" }, "\u041F\u0440\u043E\u0434\u043E\u043B\u0436\u0438\u0442\u044C"))) : React.createElement("div", { className: "success" },
+                React.createElement("div", { className: "success-icon" },
+                    React.createElement(Icon, { name: "check", size: 26 })),
+                React.createElement("h2", { id: "modal-title" }, "\u0417\u0430\u044F\u0432\u043A\u0430 \u043F\u043E\u0434\u0433\u043E\u0442\u043E\u0432\u043B\u0435\u043D\u0430"),
+                React.createElement("p", null, "\u041E\u0442\u043A\u0440\u043E\u0439\u0442\u0435 \u043F\u0438\u0441\u044C\u043C\u043E \u043D\u0430 \u043E\u0444\u0438\u0446\u0438\u0430\u043B\u044C\u043D\u044B\u0439 email RightRentCar \u0438\u043B\u0438 \u043F\u043E\u0437\u0432\u043E\u043D\u0438\u0442\u0435."),
+                React.createElement("div", null,
+                    React.createElement(Button, { href: this.state.mailtoHref },
+                        React.createElement(Icon, { name: "mail" }),
+                        " \u041E\u0442\u043A\u0440\u044B\u0442\u044C \u043F\u0438\u0441\u044C\u043C\u043E"),
+                    React.createElement(Button, { variant: "secondary", href: "tel:+79788576377" },
+                        React.createElement(Icon, { name: "phone" }),
+                        " \u041F\u043E\u0437\u0432\u043E\u043D\u0438\u0442\u044C"))))); }
+    render() { return React.createElement("div", null,
+        this.renderHeader(),
+        React.createElement("main", null,
+            this.renderHero(),
+            this.renderFleet(),
+            this.renderConditions(),
+            this.renderReviews(),
+            this.renderCTA()),
+        this.renderFooter(),
+        this.renderModal()); }
 }
 ReactDOM.render(React.createElement(App, null), document.getElementById('root'));
