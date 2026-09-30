@@ -1,0 +1,11 @@
+{
+  "name": "rrentcar-premium-redesign",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Premium React redesign for RightRentCar fleet page",
+  "scripts": {
+    "build": "rm -rf dist && mkdir -p dist/assets dist/vendor && tsc -p tsconfig.json && cp index.html dist/index.html && cp styles.css dist/styles.css && cp vendor/*.js dist/vendor/ && cp assets/* dist/assets/ && cp motion-bridge.js dist/motion-bridge.js",
+    "lint": "tsc -p tsconfig.json --noEmit && node scripts/lint.mjs",
+    "dev": "http-server dist -p 4173 -c-1"
+  }
+}

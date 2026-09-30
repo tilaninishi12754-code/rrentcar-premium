@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "ES2019",
+    "module": "none",
+    "jsx": "react",
+    "outFile": "dist/app.js",
+    "lib": ["DOM", "ES2020"],
+    "strict": false,
+    "skipLibCheck": true,
+    "noEmitOnError": true,
+    "removeComments": true
+  },
+  "files": ["src/types.d.ts", "src/app.tsx"]
+}
